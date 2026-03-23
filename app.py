@@ -18,7 +18,7 @@ def load_artifacts():
     series_features = joblib.load("series_features.pkl")
     lookback = joblib.load("lookback.pkl")
     rain_high_threshold = joblib.load("rain_high_threshold.pkl")
-    lstm_model = load_model("lstm_model.h5")
+    lstm_model = load_model("lstm_model.h5", compile=False)
 
     return {
         "best_rf": best_rf,
