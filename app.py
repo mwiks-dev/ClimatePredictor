@@ -91,7 +91,11 @@ if uploaded_file is not None:
 
             X_rf = pred_rows[feature_cols].copy()
             y_pred_rf = best_rf.predict(X_rf)
-            y_pred_labels = label_encoder.inverse_transform(y_pred_rf)
+
+            if pd.api.types.is_numeric_dtype(y_pred_rf):
+                y_pred_labels = label_encoder.inverse_transform(y_pred_rf.astype(int))
+            else:
+                y_pred_labels = y_pred_rf
 
             pred_rows["predicted_future_risk"] = y_pred_labels
 
