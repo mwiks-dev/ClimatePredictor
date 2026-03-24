@@ -36,10 +36,12 @@ artifacts = load_artifacts()
 best_rf = artifacts["best_rf"]
 scaler_lstm = artifacts["scaler_lstm"]
 label_encoder = artifacts["label_encoder"]
-feature_cols = artifacts["feature_cols"]
-series_features = artifacts["series_features"]
-lookback = artifacts["lookback"]
-rain_high_threshold = artifacts["rain_high_threshold"]
+
+feature_cols = [str(c) for c in list(artifacts["feature_cols"])]
+series_features = [str(c) for c in list(artifacts["series_features"])]
+
+lookback = int(artifacts["lookback"])
+rain_high_threshold = float(artifacts["rain_high_threshold"])
 lstm_model = artifacts["lstm_model"]
 
 st.subheader("Upload prepared feature data")
@@ -62,7 +64,7 @@ if uploaded_file is not None:
         st.error(f"Missing RF input columns: {missing_rf}")
     else:
         # LSTM needs the sequence features scaled
-        series_df = data[series_features].copy()
+        series_df = data.loc[:, series_features].copy()
         series_scaled = scaler_lstm.transform(series_df)
 
         if len(series_scaled) < lookback:
